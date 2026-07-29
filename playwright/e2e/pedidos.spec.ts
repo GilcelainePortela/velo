@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 import { generateOrderCode } from '../support/helpers';
-import { number } from 'zod';
+
+import { OrderLockupPage } from '../support/pages/OrderLockupPage';
 
 ///AAA - Arrange, Act, Assert (preparar, agir, verificar)
 
@@ -62,8 +63,9 @@ test.describe('Consulta de Pedido', ()=> {
     }
   
     //Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
+
 
     await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
       - img
@@ -122,8 +124,8 @@ test.describe('Consulta de Pedido', ()=> {
     }
 
     //Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
   
   
     //Assert
@@ -185,8 +187,8 @@ test.describe('Consulta de Pedido', ()=> {
     }
 
     //Act
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
   
   
     //Assert
@@ -234,8 +236,8 @@ test.describe('Consulta de Pedido', ()=> {
   
     const order = generateOrderCode()
   
-    await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order)
-    await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order)
   
     // await expect(page.locator('#root')).toContainText('Pedido não encontrado', level: 3)
     // await expect(page.locator('#root')).toContainText('Verifique o número do pedido e tente novamente')
